@@ -24,7 +24,7 @@ To search for zettels containing the term "my zettelkasten" (or at least "my" an
         202204121937 smart search for zettelkasten
 
         
-The results are grouped, as you can see, and sorted by `last accessed`.
+The results are grouped, as you can see, and sorted by `last accessed`. Every zettel occurs only once in the result list. 
 
 ## Why zkss?
 
