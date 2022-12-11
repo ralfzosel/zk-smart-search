@@ -36,7 +36,7 @@ By structuring the search results and showing the presumably most relevant first
 
 First, you need Python, of course. On a Mac, it [works best with Homebrew](https://docs.brew.sh/Homebrew-and-Python). I even prefer [pyenv](https://realpython.com/intro-to-pyenv/) because it can handle different versions of Python on the same machine.
 
-Download the files above from GitHub (or use `git clone`). I chose the directory `code` in my home-directory.
+Download the files above from GitHub (or use `git clone https://github.com/ralfzosel/zk-smart-search.git`). I chose the directory `code` in my home-directory.
 
 ⚠️ If you choose another directory, you have to change the PATH variable in `.zshenv` see below.
 
