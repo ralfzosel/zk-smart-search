@@ -34,17 +34,19 @@ By structuring the search results and showing the presumably most relevant first
 
 ## Installation
 
-First, you need Python, of course. On a Mac, it works best with brew.
+First, you need Python, of course. On a Mac, it [works best with Homebrew](https://docs.brew.sh/Homebrew-and-Python). I even prefer [pyenv](https://realpython.com/intro-to-pyenv/) because it can handle different versions of Python on the same machine.
 
-Download the files from GitHub (or use `git clone`). I chose the directory `code` in my home-directory.
+Download the files above from GitHub (or use `git clone`). I chose the directory `code` in my home-directory.
 
-Usually, a virtual environment is recommended (though we only have one package to install with `pip` - namely `rich` for colorful results).
+⚠️ If you choose another directory, you have to change the PATH variable in `.zshenv` see below.
 
-To be able to start the script in the terminal by simply typing `zkss`, you have to add the following line in your `.zshenv`-file in your home directory (on a Mac):
+Usually, for Python, a virtual environment is recommended (though we only have _one_ package to install with `pip` - namely `rich` for colorful results). This can be done with [venv](https://docs.python.org/3/library/venv.html) or via `pyenv` (see above).
+
+To be able to start the script in the terminal by simply typing `zkss`, you have to add the following line to your `.zshenv`-file in your home directory (on a Mac):
 
     export PATH=~/code/zk-smart-search:$PATH
 
-Restart your terminal to make it work.
+If you installed the script to another directory, you have to change the line. Always restart your terminal to make the change of `.zshenv` work.
 
 ## Configuration
 
