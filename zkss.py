@@ -5,6 +5,8 @@ import sys
 from rich import print
 from settings import ZK_BASE_DIR, ENDING
 
+SPLIT_CHARACTERS = "[ \.,\[\]\(\)\n]"
+
 
 def strip_ending(filename):
     return re.search(rf"(.*){ENDING}$", filename).group(1)
@@ -39,6 +41,33 @@ else:
 
 print_heading = True
 for filename in filenames_sorted:
+    try:
+        stripped_filename = re.search(
+            r"^[0-9]* (.*)", strip_ending(filename.lower())
+        ).group(1)
+    except:
+        stripped_filename = ""
+
+    if search_string.lower() == stripped_filename:
+        if print_heading:
+            print(f'- "{search_string.lower()}" very exact in [yellow]filename:')
+            print_heading = False
+        print("    " + strip_ending(filename), flush=True)
+        filenames_sorted.remove(filename)
+
+
+print_heading = True
+for filename in filenames_sorted:
+    if search_string.lower() in set(re.split(SPLIT_CHARACTERS, filename.lower())):
+        if print_heading:
+            print(f'- "{search_string.lower()}" exact in [yellow]filename:')
+            print_heading = False
+        print("    " + strip_ending(filename), flush=True)
+        filenames_sorted.remove(filename)
+
+
+print_heading = True
+for filename in filenames_sorted:
     if search_string.lower() in filename.lower():
         if print_heading:
             print(f'- "{search_string.lower()}" in [yellow]filename:')
@@ -60,7 +89,7 @@ if len_search_string > 1:
     print_heading = True
     for filename in filenames_sorted:
         hit_count = 0
-        for search_word in search_string.lower().split(" "):
+        for search_word in search_string.lower().split():
             if search_word in filename.lower():
                 hit_count += 1
         if hit_count == len_search_string:
@@ -74,13 +103,41 @@ print_heading = True
 for filename in filenames_sorted:
     with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
         content = f.read().lower()
+        if search_string.lower() in set(re.split(SPLIT_CHARACTERS, content)):
+            if print_heading:
+                print(f'- "{search_string.lower()}" exact in [yellow]content:')
+                print_heading = False
+            print("    " + strip_ending(filename), flush=True)
+            filenames_sorted.remove(filename)
+
+
+print_heading = True
+for filename in filenames_sorted:
+    with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
+        content = f.read().lower()
         if search_string.lower() in content:
             if print_heading:
                 print(f'- "{search_string.lower()}" in [yellow]content:')
                 print_heading = False
             print("    " + strip_ending(filename), flush=True)
             filenames_sorted.remove(filename)
-            pass
+
+
+if len_search_string > 1:
+    print_heading = True
+    for filename in filenames_sorted:
+        hit_count = 0
+        with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
+            content = f.read().lower()
+            for search_word in set(re.split(SPLIT_CHARACTERS, content)):
+                if search_word in content:
+                    hit_count += 1
+            if hit_count == len_search_string:
+                if print_heading:
+                    print(f"- {message} exact in [yellow]content:")
+                    print_heading = False
+                print("    " + strip_ending(filename), flush=True)
+                filenames_sorted.remove(filename)
 
 
 if len_search_string > 1:
