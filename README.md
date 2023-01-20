@@ -4,30 +4,12 @@ Tool that helps to easier find "zettels" in large zettelkastens.
 
 ## Usage (Example)
 
-To search for zettels containing the term "my zettelkasten" (or at least "my" and "zettelkasten"), simply type `zkss my zettelkasten` in your terminal and press enter. I get the following results (shortened):
+To search for zettels containing the term "my zettelkasten" (or at least "my" and "zettelkasten"), simply type `zkss my zettelkasten` in your terminal and press enter. This is what it can look like:
 
 
-    $ zkss my zettelkasten
-    - "my zettelkasten" very exact in filename:
-        202204070958 my zettelkasten
-    - "my zettelkasten" in filename:
-        202211261148 using VS Code for my Zettelkasten
-        202204161345 version control for my zettelkasten
-        202204130750 my zettelkasten scripts
-    - "my" and "zettelkasten" in filename:
-        202301030853 using English as default makes my work with the zettelkasten more meaningful
-        202212290911 write my own zettelkasten editor in Python
-    - "my zettelkasten" in content:
-        202203291701 Google Drive
-        202203310823 zettelkasten scripts
-        202203151020 zettelkasten
-        202203170840 keep your zettelkasten personal
-        202204031957 automate everything that can be automated
-    - "my" and "zettelkasten" in content:
-        202208291407 get last access time of a file with Python
-        202204121937 smart search for zettelkasten
+[](https://user-images.githubusercontent.com/46703936/213792583-75f8f0d6-439c-43ef-af63-cc0aef314d5a.mp4)
 
-        
+       
 The results are grouped, as you can see, and sorted by `last accessed`. Every zettel occurs only once in the result list.
 
 You can "pipe" the result to handle the output, e.g.
