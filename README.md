@@ -32,7 +32,7 @@ The results are grouped, as you can see, and sorted by `last accessed`. Every ze
 
 You can "pipe" the result to handle the output, e.g.
 
-    $ zkss my zettelkasten | less
+    $ zkss my zettelkasten | grep "search"
 
 ## Why zkss?
 
