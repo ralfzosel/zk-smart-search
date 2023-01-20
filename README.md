@@ -54,7 +54,13 @@ To be able to start the script in the terminal by simply typing `zkss`, you have
 
     export PATH=~/code/zk-smart-search:$PATH
 
-If you installed the script to another directory, you have to change the line. Always restart your terminal to make the change of `.zshenv` work.
+If you installed the script to another directory, you have to change the line.
+
+Furthermore, to +make colored output work, you have to add the following line to your `.zshenv`-file:
+
+    export LESS=-r
+
+Restart your terminal to make the changes of `.zshenv` work.
 
 ## Configuration
 
@@ -65,12 +71,13 @@ Change the file `settings.py` according to your needs:
 
 ## Further ideas
 
-- Integrate a (less-like) pager.
-- Build a GUI (with something like Flet?).
-- Integrate smart search in The Archive. ;-)
+
+- Integrate smart search in [The Archive](https://zettelkasten.de/the-archive/). ;-)
 
 Further ideas and improvements are welcome.
 
 ## Disclaimer
+
+I have only tested on macOS, so I have now idea if it works on Windows, too.
 
 When it comes to Python, I am just a hobbyist and this is my _first_ project I am publishing on GitHub. So it's very likely I made some mistakes. Please bear with me.
