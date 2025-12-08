@@ -1,158 +1,205 @@
 import os
 import re
 import sys
+from typing import List, Callable, Optional
 
 from rich.console import Console
 from rich import print
 from settings import ZK_BASE_DIR, ENDING
 
-SPLIT_CHARACTERS = "[ \.,\[\]\(\)\n]"
 
+class ZKSearcher:
+    SPLIT_CHARACTERS = "[ \.,\[\]\(\)\n]"
 
-def strip_ending(filename):
-    return re.search(rf"(.*){ENDING}$", filename).group(1)
+    def __init__(self, base_dir: str = ZK_BASE_DIR, ending: str = ENDING):
+        self.base_dir = base_dir
+        self.ending = ending
+        self.console = Console()
 
+    def strip_ending(self, filename: str) -> str:
+        """Removes the file extension from the filename."""
+        match = re.search(rf"(.*){self.ending}$", filename)
+        if match:
+            return match.group(1)
+        return filename
 
-file_and_folder_names = os.listdir(ZK_BASE_DIR)
-
-
-files_with_last_access_time = {
-    f"{filename}": os.lstat(os.path.join(ZK_BASE_DIR, filename)).st_atime
-    for filename in file_and_folder_names
-    if os.path.isfile(os.path.join(ZK_BASE_DIR, filename))
-    and filename[-3:] == ENDING  # filenames only, no foldernames
-}
-
-filenames_sorted = list(
-    dict(
-        sorted(
-            files_with_last_access_time.items(), key=lambda item: item[1], reverse=True
-        )
-    )
-)
-
-console = Console()
-with console.pager(styles=True):
-
-    if len(sys.argv) > 1:
-        search_string = " ".join(sys.argv[1:])
-        len_search_string = len(search_string.split(" "))
-    else:
-        print("[red]No search string given.")
-        sys.exit()
-
-    print_heading = True
-    for filename in filenames_sorted:
+    def get_sorted_filenames(self) -> List[str]:
+        """Returns a list of filenames sorted by last access time (descending)."""
         try:
-            stripped_filename = re.search(
-                r"^[0-9]* (.*)", strip_ending(filename.lower())
-            ).group(1)
-        except:
-            stripped_filename = ""
+            file_and_folder_names = os.listdir(self.base_dir)
+        except FileNotFoundError:
+            self.console.print(f"[red]Directory not found: {self.base_dir}[/red]")
+            return []
 
-        if search_string.lower() == stripped_filename:
-            if print_heading:
-                console.print(
-                    f'- "{search_string.lower()}" very exact in [yellow]filename:'
-                )
-                print_heading = False
-            console.print("    " + strip_ending(filename))
-            filenames_sorted.remove(filename)
+        files_with_last_access_time = {
+            filename: os.lstat(os.path.join(self.base_dir, filename)).st_atime
+            for filename in file_and_folder_names
+            if os.path.isfile(os.path.join(self.base_dir, filename))
+            and filename.endswith(self.ending)
+        }
 
-    print_heading = True
-    for filename in filenames_sorted:
-        if search_string.lower() in set(re.split(SPLIT_CHARACTERS, filename.lower())):
-            if print_heading:
-                console.print(f'- "{search_string.lower()}" exact in [yellow]filename:')
-                print_heading = False
-            console.print("    " + strip_ending(filename))
-            filenames_sorted.remove(filename)
+        return sorted(
+            files_with_last_access_time.keys(),
+            key=lambda f: files_with_last_access_time[f],
+            reverse=True,
+        )
 
-    print_heading = True
-    for filename in filenames_sorted:
-        if search_string.lower() in filename.lower():
-            if print_heading:
-                console.print(f'- "{search_string.lower()}" in [yellow]filename:')
-                print_heading = False
-            console.print("    " + strip_ending(filename))
-            filenames_sorted.remove(filename)
+    def filter_and_print(
+        self,
+        filenames: List[str],
+        predicate: Callable[[str], bool],
+        header_message: str,
+    ) -> List[str]:
+        """
+        Filters filenames based on a predicate, prints matches, and returns remaining files.
+        """
+        matches = []
+        remaining = []
+        print_heading = True
 
-    if len_search_string > 1:
+        for filename in filenames:
+            if predicate(filename):
+                matches.append(filename)
+                if print_heading:
+                    self.console.print(header_message)
+                    print_heading = False
+                self.console.print("    " + self.strip_ending(filename))
+            else:
+                remaining.append(filename)
+        
+        return remaining
 
+    def get_file_content(self, filename: str) -> str:
+        try:
+            with open(os.path.join(self.base_dir, filename), "r", errors="ignore") as f:
+                return f.read().lower()
+        except Exception:
+            return ""
+
+    def run(self):
+        if len(sys.argv) > 1:
+            search_string = " ".join(sys.argv[1:])
+        else:
+            print("[red]No search string given.")
+            sys.exit()
+
+        search_string_lower = search_string.lower()
+        search_words = search_string_lower.split()
+        len_search_string = len(search_words)
+        
+        # Format message for multi-word search
         message = ""
-        search_words = search_string.lower().split(" ")
-        i = 1
-        for s in search_words:
-            message += f'"{s}"'
-            if i < len(search_words):
-                message += " and "
-            i += 1
+        if len_search_string > 1:
+             message = " and ".join([f'"{s}"' for s in search_words])
 
-        print_heading = True
-        for filename in filenames_sorted:
-            hit_count = 0
-            for search_word in search_string.lower().split():
-                if search_word in filename.lower():
-                    hit_count += 1
-            if hit_count == len_search_string:
-                if print_heading:
-                    console.print(f"- {message} in [yellow]filename:")
-                    print_heading = False
-                console.print("    " + strip_ending(filename))
-                filenames_sorted.remove(filename)
+        filenames = self.get_sorted_filenames()
 
-    print_heading = True
-    for filename in filenames_sorted:
-        with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
-            content = f.read().lower()
-            if search_string.lower() in set(re.split(SPLIT_CHARACTERS, content)):
-                if print_heading:
-                    console.print(
-                        f'- "{search_string.lower()}" exact in [yellow]content:'
-                    )
-                    print_heading = False
-                console.print("    " + strip_ending(filename))
-                filenames_sorted.remove(filename)
+        with self.console.pager(styles=True):
+            # 1. Very Exact Filename
+            def check_very_exact(filename):
+                try:
+                    stripped = self.strip_ending(filename.lower())
+                    # Strip leading numbers for "very exact" match logic from original code
+                    # Original: re.search(r"^[0-9]* (.*)", strip_ending(filename.lower())).group(1)
+                    match = re.search(r"^[0-9]* (.*)", stripped)
+                    cleaned_name = match.group(1) if match else stripped
+                    return search_string_lower == cleaned_name
+                except Exception:
+                    return False
 
-    print_heading = True
-    for filename in filenames_sorted:
-        with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
-            content = f.read().lower()
-            if search_string.lower() in content:
-                if print_heading:
-                    console.print(f'- "{search_string.lower()}" in [yellow]content:')
-                    print_heading = False
-                console.print("    " + strip_ending(filename))
-                filenames_sorted.remove(filename)
+            filenames = self.filter_and_print(
+                filenames,
+                check_very_exact,
+                f'- "{search_string_lower}" very exact in [yellow]filename:',
+            )
 
-    if len_search_string > 1:
-        print_heading = True
-        for filename in filenames_sorted:
-            hit_count = 0
-            with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
-                content = f.read().lower()
-                for search_word in set(re.split(SPLIT_CHARACTERS, content)):
-                    if search_word in content:
-                        hit_count += 1
-                if hit_count == len_search_string:
-                    if print_heading:
-                        console.print(f"- {message} exact in [yellow]content:")
-                        print_heading = False
-                    console.print("    " + strip_ending(filename))
-                    filenames_sorted.remove(filename)
+            # 2. Exact Word in Filename
+            def check_exact_filename(filename):
+                return search_string_lower in set(re.split(self.SPLIT_CHARACTERS, filename.lower()))
 
-    if len_search_string > 1:
-        print_heading = True
-        for filename in filenames_sorted:
-            hit_count = 0
-            with open(os.path.join(ZK_BASE_DIR, filename), "r") as f:
-                content = f.read().lower()
-                for search_word in search_string.lower().split(" "):
-                    if search_word in content:
-                        hit_count += 1
-                if hit_count == len_search_string:
-                    if print_heading:
-                        console.print(f"- {message} in [yellow]content:")
-                        print_heading = False
-                    console.print("    " + strip_ending(filename))
-                    filenames_sorted.remove(filename)
+            filenames = self.filter_and_print(
+                filenames,
+                check_exact_filename,
+                f'- "{search_string_lower}" exact in [yellow]filename:',
+            )
+
+            # 3. Substring in Filename
+            def check_substring_filename(filename):
+                return search_string_lower in filename.lower()
+
+            filenames = self.filter_and_print(
+                filenames,
+                check_substring_filename,
+                f'- "{search_string_lower}" in [yellow]filename:',
+            )
+
+            # 4. Multi-word in Filename
+            if len_search_string > 1:
+                def check_multi_filename(filename):
+                    return all(word in filename.lower() for word in search_words)
+
+                filenames = self.filter_and_print(
+                    filenames,
+                    check_multi_filename,
+                    f"- {message} in [yellow]filename:",
+                )
+
+            # Content Searches
+            # Optimization: Read content once per file if possible, but the list shrinks.
+            # Since we have to iterate the remaining files for each check, we might read the same file multiple times 
+            # if it fails the first content check but passes a later one.
+            # To avoid re-reading, we could cache content, but that might be memory intensive.
+            # Given the original script read it every time, we'll stick to that or slightly optimize.
+            # The original script did: loop 5, loop 6, loop 7, loop 8.
+            # If a file matches in loop 5, it's removed.
+            
+            # 5. Exact Word in Content
+            def check_exact_content(filename):
+                content = self.get_file_content(filename)
+                return search_string_lower in set(re.split(self.SPLIT_CHARACTERS, content))
+
+            filenames = self.filter_and_print(
+                filenames,
+                check_exact_content,
+                f'- "{search_string_lower}" exact in [yellow]content:',
+            )
+
+            # 6. Substring in Content
+            def check_substring_content(filename):
+                content = self.get_file_content(filename)
+                return search_string_lower in content
+
+            filenames = self.filter_and_print(
+                filenames,
+                check_substring_content,
+                f'- "{search_string_lower}" in [yellow]content:',
+            )
+
+            if len_search_string > 1:
+                # 7. Multi-word Exact in Content
+                def check_multi_exact_content(filename):
+                    content = self.get_file_content(filename)
+                    content_words = set(re.split(self.SPLIT_CHARACTERS, content))
+                    return all(word in content_words for word in search_words)
+
+                filenames = self.filter_and_print(
+                    filenames,
+                    check_multi_exact_content,
+                    f"- {message} exact in [yellow]content:",
+                )
+
+                # 8. Multi-word in Content
+                def check_multi_content(filename):
+                    content = self.get_file_content(filename)
+                    return all(word in content for word in search_words)
+
+                filenames = self.filter_and_print(
+                    filenames,
+                    check_multi_content,
+                    f"- {message} in [yellow]content:",
+                )
+
+
+if __name__ == "__main__":
+    searcher = ZKSearcher()
+    searcher.run()
