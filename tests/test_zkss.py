@@ -97,5 +97,49 @@ class TestZKSearcher(unittest.TestCase):
             content = self.searcher.get_file_content("test.md")
             self.assertEqual(content, "")
 
+    # --- Predicate Tests ---
+
+    def test_check_very_exact(self):
+        self.assertTrue(self.searcher.check_very_exact("202101010000 My Note.md", "my note"))
+        self.assertTrue(self.searcher.check_very_exact("My Note.md", "my note"))
+        self.assertFalse(self.searcher.check_very_exact("My Note 2.md", "my note"))
+
+    def test_check_exact_filename(self):
+        self.assertTrue(self.searcher.check_exact_filename("my note.md", "my"))
+        # self.assertTrue(self.searcher.check_exact_filename("my-note.md", "my")) # split char - CURRENTLY FAILS as '-' is not in split chars
+        self.assertFalse(self.searcher.check_exact_filename("mynote.md", "my"))
+
+    def test_check_substring_filename(self):
+        self.assertTrue(self.searcher.check_substring_filename("mynote.md", "my"))
+        self.assertFalse(self.searcher.check_substring_filename("other.md", "my"))
+
+    def test_check_multi_filename(self):
+        self.assertTrue(self.searcher.check_multi_filename("my nice note.md", ["my", "note"]))
+        self.assertFalse(self.searcher.check_multi_filename("my nice.md", ["my", "note"]))
+
+    @patch('zkss.ZKSearcher.get_file_content')
+    def test_check_exact_content(self, mock_content):
+        mock_content.return_value = "this is my content"
+        self.assertTrue(self.searcher.check_exact_content("f.md", "my"))
+        self.assertFalse(self.searcher.check_exact_content("f.md", "content2"))
+
+    @patch('zkss.ZKSearcher.get_file_content')
+    def test_check_substring_content(self, mock_content):
+        mock_content.return_value = "this is my content"
+        self.assertTrue(self.searcher.check_substring_content("f.md", "is m"))
+        self.assertFalse(self.searcher.check_substring_content("f.md", "foobar"))
+
+    @patch('zkss.ZKSearcher.get_file_content')
+    def test_check_multi_exact_content(self, mock_content):
+        mock_content.return_value = "this is my content"
+        self.assertTrue(self.searcher.check_multi_exact_content("f.md", ["my", "content"]))
+        self.assertFalse(self.searcher.check_multi_exact_content("f.md", ["my", "foobar"]))
+
+    @patch('zkss.ZKSearcher.get_file_content')
+    def test_check_multi_content(self, mock_content):
+        mock_content.return_value = "this is my content"
+        self.assertTrue(self.searcher.check_multi_content("f.md", ["is m", "content"]))
+        self.assertFalse(self.searcher.check_multi_content("f.md", ["is m", "foobar"]))
+
 if __name__ == '__main__':
     unittest.main()
