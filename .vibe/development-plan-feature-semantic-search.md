@@ -11,7 +11,7 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 - [x] Research and select specific embedding model (Selected: `all-MiniLM-L6-v2` via `sentence-transformers`).
 - [x] Determine storage strategy for the vector index (Selected: `chromadb` for local persistence).
 - [x] Verify `chromadb` compatibility and requirements.
-- [ ] Prototype basic embedding generation and retrieval script.
+- [x] Prototype basic embedding generation and retrieval script (Skipped prototype, went straight to implementation).
 
 ### Completed
 - [x] Created development plan file
@@ -46,7 +46,7 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 - [x] Update `zkss.py`:
     - [x] Import `IndexManager`.
     - [x] Add CLI arguments (`-s`, `--reindex`).
-    - [x] Integrate into `run()` loop (if semantic, skip standard filters or combine?).
+    - [x] Integrate into `run()` loop.
 - [x] Add integration tests for semantic search (mocking the heavy ML parts).
 
 ### Completed
@@ -54,17 +54,18 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 
 ## Commit
 ### Phase Entrance Criteria
-- [ ] Semantic search is functional and tested.
-- [ ] Code is linted and clean.
-- [ ] Documentation is updated with new features.
+- [x] Semantic search is functional and tested.
+- [x] Code is linted and clean.
+- [x] Documentation is updated with new features.
 
 ### Tasks
-- [ ] Remove any prototype/debug code.
-- [ ] Ensure all tests pass.
-- [ ] Update README with semantic search usage instructions.
+- [x] Remove any prototype/debug code.
+- [x] Ensure all tests pass.
+- [x] Update README with semantic search usage instructions.
 
 ### Completed
-*None yet*
+- [x] Updated README.md
+- [x] Verified tests pass.
 
 ## Key Decisions
 - **Stack**: `sentence-transformers` (Model: `all-MiniLM-L6-v2`) + `chromadb` for storage.
