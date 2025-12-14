@@ -71,8 +71,14 @@ class IndexManager:
         for filename, mtime in current_files.items():
             if filename not in existing_ids:
                 to_add.append(filename)
-            elif force_reindex or existing_metadata.get(filename, {}).get('mtime', 0) < mtime:
-                to_update.append(filename)
+            else:
+                stored_mtime = existing_metadata.get(filename, {}).get('mtime', 0)
+                # Check for update with floating point tolerance (1ms)
+                # Only update if filesystem mtime is significantly NEWER than stored mtime
+                if not force_reindex and (mtime - stored_mtime) > 0.001:
+                    to_update.append(filename)
+                elif force_reindex:
+                    to_update.append(filename)
         
         for filename in existing_ids:
             if filename not in current_files:
