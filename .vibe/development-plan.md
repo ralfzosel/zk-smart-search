@@ -1,69 +1,55 @@
-# Development Plan: zk-smart-search (master branch)
+# Development Plan: zk-smart-search (bugfix-incremental-indexing)
 
-*Generated on 2025-12-08 by Vibe Feature MCP*
-*Workflow: [minor](https://mrsimpson.github.io/responsible-vibe-mcp/workflows/minor)*
+*Generated on 2025-12-14 by Vibe Feature MCP*
+*Workflow: [bugfix](https://mrsimpson.github.io/responsible-vibe-mcp/workflows/bugfix)*
 
 ## Goal
-Refactor `zkss.py` to improve code structure, readability, and maintainability. The script currently contains procedural code that can be broken down into functions for better modularity.
+Investigate and fix the issue where `zkss -s` re-indexes approximately 225 files on every run, even when no files have been modified. This suggests an issue with the incremental update logic, possibly `mtime` precision comparison.
 
-## Explore
+## Reproduce
 ### Tasks
-- [x] Analyze `zkss.py` to identify specific refactoring opportunities.
-- [x] Define the new structure (functions, classes if necessary).
-- [x] Create a detailed refactoring plan.
+- [x] Create a reproduction script (or use manual verification) to identify *which* files are being re-indexed.
+- [x] Log the `mtime` from filesystem and `mtime` from ChromaDB for these files to compare them.
+- [x] Confirm if it's a floating point precision issue (Confirmed: diff is ~2e-7 seconds).
 
 ### Completed
 - [x] Created development plan file
 
-## Implement
-### Phase Entrance Criteria
-- [x] Refactoring plan is defined and documented in the plan file.
-- [x] Key architectural decisions (e.g., functional decomposition) are documented.
-
+## Analyze
 ### Tasks
-- [x] Create `ZKSearcher` class in `zkss.py`.
-- [x] Implement `get_files_sorted` method.
-- [x] Implement `filter_and_print` method.
-- [x] Implement search predicates (filename matchers, content matchers).
-- [x] Implement `main` function.
-- [x] Fix the list iteration bug.
+- [x] Analyze `indexer.py` comparison logic: `existing_metadata.get(filename, {}).get('mtime', 0) < mtime`.
+- [x] Determine if `chromadb` truncates metadata values (Confirmed precision loss).
 
 ### Completed
-*None yet*
+- [x] Identified root cause: Floating point precision mismatch.
+
+## Fix
+### Tasks
+- [x] Implement a tolerance (epsilon) or rounding for `mtime` comparison.
+- [x] Update `IndexManager.update_index` to handle precision differences.
+
+### Completed
+- [x] Implemented tolerance check (0.001s).
+
+## Verify
+### Tasks
+- [x] Run the reproduction script again to confirm 0 files are re-indexed on subsequent runs.
+- [ ] Run existing tests to ensure no regressions.
+
+### Completed
+- [x] Verified manual run shows 0 files re-indexed.
 
 ## Finalize
-### Phase Entrance Criteria
-- [x] Code refactoring is complete.
-- [x] Functionality is verified to be equivalent to the original script (minus the bug).
-
 ### Tasks
-- [x] Verify functionality with manual testing.
-- [x] Cleanup code (check for unused imports, etc.).
-- [x] Update documentation if necessary (none requested).
+- [x] Remove debug logging.
+- [x] Commit fix.
 
 ### Completed
-*None yet*
+- [x] Cleaned up code.
+- [x] Committed fix to master.
 
 ## Key Decisions
-- **Class-based Structure**: Grouping related methods and state (base dir, console) in a class.
-- **Generic Filter Logic**: Deduplicating the loop-check-print-remove pattern.
-- **Bug Fix**: Correcting the list modification during iteration.
-
-## Phase 2: Testing & Stability
-- [x] Set up `pytest` environment.
-- [x] Create `tests/test_zkss.py`.
-- [x] Add unit tests for `ZKSearcher` methods (`strip_ending`, `filter_and_print`).
-- [x] Mock file system operations to test sorting and reading without actual files.
-
-## Phase 3: Semantic Search
-- [ ] Research embedding libraries (e.g., `sentence-transformers`, `chromadb`).
-- [ ] Implement index generation for Zettelkasten notes.
-- [ ] Add `semantic_search` method to `ZKSearcher`.
-
-## Phase 4: MCP Server
-- [ ] Create a Model Context Protocol (MCP) server wrapper.
-- [ ] Expose search functionality via MCP tools.
-- [ ] Integrate with AI assistants (like Claude/Cursor).
+- **Tolerance**: Using 0.001s epsilon for mtime comparison.
 
 ## Notes
 *Additional context and observations*
