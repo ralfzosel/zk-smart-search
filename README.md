@@ -4,6 +4,7 @@ Tool that makes it easier to find "zettels" in large zettelkastens.
 
 ## Usage (Example)
 
+### Keyword Search (Standard)
 To search for zettels containing the term "my zettelkasten" (or at least "my" and "zettelkasten"), simply type `zkss my zettelkasten` in your terminal and press enter. This is what it can look like:
 
 [](https://user-images.githubusercontent.com/46703936/213792583-75f8f0d6-439c-43ef-af63-cc0aef314d5a.mp4)
@@ -13,6 +14,21 @@ The results are grouped, as you can see, and sorted by `last accessed`. Every ze
 You can "pipe" the result to handle the output, e.g.
 
     $ zkss my zettelkasten | grep "search"
+
+### Semantic Search (New!)
+You can now search for notes by **meaning** rather than exact keywords. This is useful when you remember the *concept* but not the exact words.
+
+    $ zkss -s "personal knowledge management"
+
+Or use the long flag:
+
+    $ zkss --semantic "personal knowledge management"
+
+The first time you run this, it will build a local vector index (stored in `~/.zkss_index`). Subsequent runs will be instant, incrementally updating the index with any new or modified notes.
+
+To force a complete rebuild of the index:
+
+    $ zkss --reindex
 
 ## Why zkss?
 
@@ -27,7 +43,15 @@ Download the files above from GitHub (or use `git clone https://github.com/ralfz
 
 ⚠️ If you choose another directory, you have to change the PATH variable in `.zshenv`, see below.
 
-Usually, for Python, a virtual environment is recommended (though we only have _one_ package to install with `pip` - namely `rich` for colorful results). This can be done with [venv](https://docs.python.org/3/library/venv.html) or via `pyenv` (see above).
+### Dependencies
+It is highly recommended to use a virtual environment:
+
+```bash
+cd ~/code/zk-smart-search
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 To be able to start the script in the terminal by simply typing `zkss`, you have to add the following line to your `.zshenv`-file in your home directory (on a Mac):
 
@@ -59,3 +83,5 @@ Further ideas and improvements are welcome.
 I have only tested on macOS, so I have now idea if it works on Windows, too.
 
 When it comes to Python, I am just a hobbyist and this is my _first_ project I am publishing on GitHub. So it's very likely I made some mistakes. Please bear with me.
+
+*Update (Dec 2025): This project has been significantly refactored and enhanced with Semantic Search capabilities, built with the help of [Responsible Vibe MCP](https://github.com/mrsimpson/responsible-vibe-mcp) and Gemini 3 Pro.*
