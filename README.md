@@ -30,6 +30,29 @@ To force a complete rebuild of the index:
 
     $ zkss --reindex
 
+### MCP Server (AI Integration)
+You can expose your Zettelkasten to AI assistants (like Claude Desktop or Cursor) using the Model Context Protocol (MCP).
+
+**Configuration for Claude Desktop:**
+Add this to your `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "zk-smart-search": {
+      "command": "/YOUR/ABSOLUTE/PATH/TO/zk-smart-search/venv/bin/python",
+      "args": ["/YOUR/ABSOLUTE/PATH/TO/zk-smart-search/mcp_server.py"]
+    }
+  }
+}
+```
+
+Replace `/YOUR/ABSOLUTE/PATH/TO` with the actual path to your cloned repository.
+
+**Available Tools:**
+- `search_notes(query, semantic=False)`: Search for notes using keywords or semantic search.
+- `read_note(filename)`: Read the full content of a note.
+
 ## Why zkss?
 
 Software like [The Archive](https://zettelkasten.de/the-archive/) sort the search results by _title_, _creation date_ or _modification date_. However, for some search terms, the more zettels you have, the more time you spend skimming the list of search results.
