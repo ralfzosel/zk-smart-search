@@ -7,10 +7,10 @@
 - [x] Initialize Responsible Vibe MCP configuration.
 
 ## Phase 2: Testing & Stability (Current Focus)
-- [ ] Set up `pytest` environment.
-- [ ] Create `tests/test_zkss.py`.
-- [ ] Add unit tests for `ZKSearcher` methods (`strip_ending`, `filter_and_print`).
-- [ ] Mock file system operations to test sorting and reading without actual files.
+- [x] Set up `pytest` environment.
+- [x] Create `tests/test_zkss.py`.
+- [x] Add unit tests for `ZKSearcher` methods (`strip_ending`, `filter_and_print`).
+- [x] Mock file system operations to test sorting and reading without actual files.
 
 ## Phase 3: Semantic Search
 - [ ] Research embedding libraries (e.g., `sentence-transformers`, `chromadb`).

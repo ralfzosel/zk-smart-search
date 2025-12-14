@@ -9,7 +9,7 @@ from settings import ZK_BASE_DIR, ENDING
 
 
 class ZKSearcher:
-    SPLIT_CHARACTERS = "[ \.,\[\]\(\)\n]"
+    SPLIT_CHARACTERS = r"[ \.,\[\]\(\)\n]"
 
     def __init__(self, base_dir: str = ZK_BASE_DIR, ending: str = ENDING):
         self.base_dir = base_dir

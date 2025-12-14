@@ -49,6 +49,22 @@ Refactor `zkss.py` to improve code structure, readability, and maintainability. 
 - **Generic Filter Logic**: Deduplicating the loop-check-print-remove pattern.
 - **Bug Fix**: Correcting the list modification during iteration.
 
+## Phase 2: Testing & Stability
+- [x] Set up `pytest` environment.
+- [x] Create `tests/test_zkss.py`.
+- [x] Add unit tests for `ZKSearcher` methods (`strip_ending`, `filter_and_print`).
+- [x] Mock file system operations to test sorting and reading without actual files.
+
+## Phase 3: Semantic Search
+- [ ] Research embedding libraries (e.g., `sentence-transformers`, `chromadb`).
+- [ ] Implement index generation for Zettelkasten notes.
+- [ ] Add `semantic_search` method to `ZKSearcher`.
+
+## Phase 4: MCP Server
+- [ ] Create a Model Context Protocol (MCP) server wrapper.
+- [ ] Expose search functionality via MCP tools.
+- [ ] Integrate with AI assistants (like Claude/Cursor).
+
 ## Notes
 *Additional context and observations*
 
