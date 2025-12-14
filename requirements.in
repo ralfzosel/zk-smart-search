@@ -1,2 +1,4 @@
 rich
 pytest
+chromadb
+sentence-transformers

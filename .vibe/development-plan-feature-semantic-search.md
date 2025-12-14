@@ -8,9 +8,9 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 
 ## Explore
 ### Tasks
-- [ ] Research and select specific embedding model (e.g., `all-MiniLM-L6-v2`).
-- [ ] Determine storage strategy for the vector index (location, update frequency).
-- [ ] Verify `chromadb` compatibility and requirements.
+- [x] Research and select specific embedding model (Selected: `all-MiniLM-L6-v2` via `sentence-transformers`).
+- [x] Determine storage strategy for the vector index (Selected: `chromadb` for local persistence).
+- [x] Verify `chromadb` compatibility and requirements.
 - [ ] Prototype basic embedding generation and retrieval script.
 
 ### Completed
@@ -18,14 +18,14 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 
 ## Plan
 ### Phase Entrance Criteria
-- [ ] Embedding model and vector store libraries are selected and verified.
+- [x] Embedding model and vector store libraries are selected and verified.
 - [ ] Strategy for handling index updates (incremental vs full rebuild) is defined.
 - [ ] Integration point with existing `ZKSearcher` class is identified.
 
 ### Tasks
-- [ ] Design the `Indexer` class or module.
+- [ ] Design the `Indexer` class or module (must support incremental updates for 5k+ notes).
 - [ ] Define the API for `semantic_search` method in `ZKSearcher`.
-- [ ] Plan the CLI command structure (e.g., new flag or separate command?).
+- [ ] Plan the CLI command structure (e.g., `zkss --semantic "query"`).
 
 ### Completed
 *None yet*
@@ -37,7 +37,7 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 - [ ] CLI user interface design is settled.
 
 ### Tasks
-- [ ] Add `sentence-transformers` and `chromadb` to requirements.
+- [x] Add `sentence-transformers` and `chromadb` to requirements.
 - [ ] Implement `IndexManager` to handle embedding generation and storage.
 - [ ] Implement `semantic_search` method in `ZKSearcher`.
 - [ ] Add integration tests for semantic search.
@@ -61,7 +61,8 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 *None yet*
 
 ## Key Decisions
-*Important decisions will be documented here as they are made*
+- **Stack**: `sentence-transformers` (Model: `all-MiniLM-L6-v2`) + `chromadb` for storage.
+- **Reasoning**: Best balance of local ease-of-use and scalability for >5,000 notes. `chromadb` handles incremental updates well.
 
 ## Notes
 *Additional context and observations*
