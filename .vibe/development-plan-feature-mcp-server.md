@@ -61,7 +61,8 @@ Create a Model Context Protocol (MCP) server that exposes the Zettelkasten searc
 - [x] Update README with MCP configuration instructions (JSON snippet).
 
 ### Completed
-*None yet*
+- [x] Updated README.
+- [x] Verified tests pass.
 
 ## Key Decisions
 - **Architecture**: Use `mcp.server.Server` with `stdio` transport.
