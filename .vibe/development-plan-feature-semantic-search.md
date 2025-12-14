@@ -19,29 +19,35 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 ## Plan
 ### Phase Entrance Criteria
 - [x] Embedding model and vector store libraries are selected and verified.
-- [ ] Strategy for handling index updates (incremental vs full rebuild) is defined.
-- [ ] Integration point with existing `ZKSearcher` class is identified.
+- [x] Strategy for handling index updates (incremental vs full rebuild) is defined.
+- [x] Integration point with existing `ZKSearcher` class is identified.
 
 ### Tasks
-- [ ] Design the `Indexer` class or module (must support incremental updates for 5k+ notes).
-- [ ] Define the API for `semantic_search` method in `ZKSearcher`.
-- [ ] Plan the CLI command structure (e.g., `zkss --semantic "query"`).
+- [x] Design the `Indexer` class or module (Separate `indexer.py` module).
+- [x] Define the API for `semantic_search` method in `ZKSearcher` (Delegates to `Indexer`).
+- [x] Plan the CLI command structure (New flags: `-s/--semantic` and `--reindex`).
+- [x] Define storage location logic (Default: `~/.zkss_index`, configurable).
 
 ### Completed
 *None yet*
 
 ## Code
 ### Phase Entrance Criteria
-- [ ] Implementation plan is documented.
-- [ ] Architecture for storing/loading index is defined.
-- [ ] CLI user interface design is settled.
+- [x] Implementation plan is documented.
+- [x] Architecture for storing/loading index is defined.
+- [x] CLI user interface design is settled.
 
 ### Tasks
 - [x] Add `sentence-transformers` and `chromadb` to requirements.
-- [ ] Implement `IndexManager` to handle embedding generation and storage.
-- [ ] Implement `semantic_search` method in `ZKSearcher`.
-- [ ] Add integration tests for semantic search.
-- [ ] Update `main` to expose semantic search option.
+- [x] Create `indexer.py` with `IndexManager` class.
+    - [x] Implement initialization (load chromadb).
+    - [x] Implement `update_index()`: Scan files, check mtime, upsert changed, remove deleted.
+    - [x] Implement `search(query, n_results)`: Return list of filenames.
+- [x] Update `zkss.py`:
+    - [x] Import `IndexManager`.
+    - [x] Add CLI arguments (`-s`, `--reindex`).
+    - [x] Integrate into `run()` loop (if semantic, skip standard filters or combine?).
+- [x] Add integration tests for semantic search (mocking the heavy ML parts).
 
 ### Completed
 *None yet*
@@ -63,6 +69,8 @@ Implement Semantic Search functionality to allow finding notes based on meaning 
 ## Key Decisions
 - **Stack**: `sentence-transformers` (Model: `all-MiniLM-L6-v2`) + `chromadb` for storage.
 - **Reasoning**: Best balance of local ease-of-use and scalability for >5,000 notes. `chromadb` handles incremental updates well.
+- **Architecture**: Separate `indexer.py` module to keep `zkss.py` clean.
+- **CLI**: `-s` flag triggers semantic search.
 
 ## Notes
 *Additional context and observations*

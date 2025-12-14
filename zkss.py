@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import argparse
 from typing import List, Callable, Optional
 
 from rich.console import Console
@@ -122,12 +123,49 @@ class ZKSearcher:
         return all(word in content for word in search_words)
 
     def run(self):
-        if len(sys.argv) > 1:
-            search_string = " ".join(sys.argv[1:])
-        else:
+        parser = argparse.ArgumentParser(description="Smart Zettelkasten Search")
+        parser.add_argument("search_terms", nargs="*", help="Terms to search for")
+        parser.add_argument("-s", "--semantic", action="store_true", help="Use semantic search")
+        parser.add_argument("--reindex", action="store_true", help="Force re-indexing for semantic search")
+        
+        args = parser.parse_args()
+
+        if args.reindex:
+            self.console.print("[bold blue]Forcing semantic index update...[/bold blue]")
+            from indexer import IndexManager
+            indexer = IndexManager(self.base_dir)
+            indexer.update_index(force_reindex=True)
+            if not args.search_terms:
+                return
+
+        if not args.search_terms:
             print("[red]No search string given.")
             sys.exit()
 
+        search_string = " ".join(args.search_terms)
+        
+        if args.semantic:
+            self.console.print(f"[bold blue]Performing Semantic Search for: '{search_string}'[/bold blue]")
+            try:
+                from indexer import IndexManager
+                indexer = IndexManager(self.base_dir)
+                indexer.update_index() # Incremental update
+                
+                results = indexer.search(search_string)
+                
+                self.console.print(f"[green]Found {len(results)} relevant notes:[/green]")
+                for filename in results:
+                     self.console.print("    " + self.strip_ending(filename))
+                
+                return
+            except ImportError:
+                 self.console.print("[red]Error: Semantic search dependencies not installed. Run `pip install -r requirements.txt`[/red]")
+                 sys.exit(1)
+            except Exception as e:
+                 self.console.print(f"[red]Semantic search error: {e}[/red]")
+                 sys.exit(1)
+
+        # --- Standard Keyword Search ---
         search_string_lower = search_string.lower()
         search_words = search_string_lower.split()
         len_search_string = len(search_words)
