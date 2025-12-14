@@ -6,7 +6,7 @@ from chromadb.utils import embedding_functions
 from rich.console import Console
 from rich.progress import track
 
-from settings import ZK_BASE_DIR, ENDING
+from settings import ZK_BASE_DIR, ENDING, DEFAULT_RESULTS
 
 class IndexManager:
     DB_DIR_NAME = ".zkss_index"
@@ -125,7 +125,7 @@ class IndexManager:
                 pass 
                 # self.console.print("Index is up to date.") 
 
-    def search(self, query_text: str, n_results: int = 15) -> List[str]:
+    def search(self, query_text: str, n_results: int = DEFAULT_RESULTS) -> List[str]:
         """
         Performs a semantic search and returns a list of filenames.
         """

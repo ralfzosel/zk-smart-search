@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch, mock_open
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from zkss import ZKSearcher
+from settings import DEFAULT_RESULTS
 
 class TestZKSearcher(unittest.TestCase):
     def setUp(self):
@@ -140,6 +141,50 @@ class TestZKSearcher(unittest.TestCase):
         mock_content.return_value = "this is my content"
         self.assertTrue(self.searcher.check_multi_content("f.md", ["is m", "content"]))
         self.assertFalse(self.searcher.check_multi_content("f.md", ["is m", "foobar"]))
+
+    @patch('argparse.ArgumentParser.parse_args')
+    @patch('indexer.IndexManager')
+    def test_run_semantic_search_with_limit(self, MockIndexManager, mock_args):
+        """Test passing -n argument to semantic search."""
+        # Setup args
+        mock_args.return_value = MagicMock(
+            search_terms=["query"],
+            semantic=True,
+            reindex=False,
+            limit=5
+        )
+        
+        # Setup IndexManager mock instance
+        mock_indexer_instance = MockIndexManager.return_value
+        mock_indexer_instance.search.return_value = []
+        
+        # Run
+        self.searcher.run()
+        
+        # Assert
+        mock_indexer_instance.search.assert_called_with("query", n_results=5)
+        
+    @patch('argparse.ArgumentParser.parse_args')
+    @patch('indexer.IndexManager')
+    def test_run_semantic_search_default_limit(self, MockIndexManager, mock_args):
+        """Test default limit when -n is not provided."""
+        # Setup args
+        mock_args.return_value = MagicMock(
+            search_terms=["query"],
+            semantic=True,
+            reindex=False,
+            limit=DEFAULT_RESULTS 
+        )
+        
+        # Setup IndexManager mock instance
+        mock_indexer_instance = MockIndexManager.return_value
+        mock_indexer_instance.search.return_value = []
+        
+        # Run
+        self.searcher.run()
+        
+        # Assert
+        mock_indexer_instance.search.assert_called_with("query", n_results=DEFAULT_RESULTS)
 
 if __name__ == '__main__':
     unittest.main()

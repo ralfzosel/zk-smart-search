@@ -12,6 +12,7 @@ sys.modules['chromadb.utils'] = MagicMock()
 sys.modules['chromadb.utils.embedding_functions'] = MagicMock()
 
 from indexer import IndexManager
+from settings import DEFAULT_RESULTS
 
 class TestIndexManager(unittest.TestCase):
     def setUp(self):
@@ -97,7 +98,7 @@ class TestIndexManager(unittest.TestCase):
         
         self.mock_collection.query.assert_called_with(
             query_texts=["query"],
-            n_results=15
+            n_results=DEFAULT_RESULTS
         )
         self.assertEqual(results, ['result1.md', 'result2.md'])
 

@@ -6,7 +6,7 @@ from typing import List, Callable, Optional
 
 from rich.console import Console
 from rich import print
-from settings import ZK_BASE_DIR, ENDING
+from settings import ZK_BASE_DIR, ENDING, DEFAULT_RESULTS
 
 
 class ZKSearcher:
@@ -126,6 +126,7 @@ class ZKSearcher:
         parser = argparse.ArgumentParser(description="Smart Zettelkasten Search")
         parser.add_argument("search_terms", nargs="*", help="Terms to search for")
         parser.add_argument("-s", "--semantic", action="store_true", help="Use semantic search")
+        parser.add_argument("-n", "--limit", type=int, default=DEFAULT_RESULTS, help=f"Number of results to return (default: {DEFAULT_RESULTS})")
         parser.add_argument("--reindex", action="store_true", help="Force re-indexing for semantic search")
         
         args = parser.parse_args()
@@ -151,7 +152,7 @@ class ZKSearcher:
                 indexer = IndexManager(self.base_dir)
                 indexer.update_index() # Incremental update
                 
-                results = indexer.search(search_string)
+                results = indexer.search(search_string, n_results=args.limit)
                 
                 self.console.print(f"[green]Found {len(results)} relevant notes:[/green]")
                 for filename in results:

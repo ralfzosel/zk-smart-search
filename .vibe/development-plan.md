@@ -1,58 +1,53 @@
-# Development Plan: zk-smart-search (bugfix-incremental-indexing)
+# Development Plan: zk-smart-search (configurable-limit)
 
 *Generated on 2025-12-14 by Vibe Feature MCP*
-*Workflow: [bugfix](https://mrsimpson.github.io/responsible-vibe-mcp/workflows/bugfix)*
+*Workflow: [minor](https://mrsimpson.github.io/responsible-vibe-mcp/workflows/minor)*
 
 ## Goal
-Investigate and fix the issue where `zkss -s` re-indexes approximately 225 files on every run, even when no files have been modified. This suggests an issue with the incremental update logic, possibly `mtime` precision comparison.
+Make the number of search results configurable via a setting and a CLI argument, changing the default from hardcoded 15 to 10.
 
-## Reproduce
+## Explore
 ### Tasks
-- [x] Create a reproduction script (or use manual verification) to identify *which* files are being re-indexed.
-- [x] Log the `mtime` from filesystem and `mtime` from ChromaDB for these files to compare them.
-- [x] Confirm if it's a floating point precision issue (Confirmed: diff is ~2e-7 seconds).
+- [x] Analyze current implementation in `indexer.py` and `zkss.py`.
+- [x] Design the changes:
+    - `settings.py`: Add `DEFAULT_RESULTS = 10`.
+    - `indexer.py`: Import default, update method signature.
+    - `zkss.py`: Add argparse argument, pass to search.
 
 ### Completed
-- [x] Created development plan file
+- [x] Analysis complete (done in conversation).
+- [x] Design agreed upon with user.
 
-## Analyze
+## Implement
+
+### Phase Entrance Criteria:
+- [x] Design is clear and tasks are defined.
+- [x] User has approved the approach.
+
 ### Tasks
-- [x] Analyze `indexer.py` comparison logic: `existing_metadata.get(filename, {}).get('mtime', 0) < mtime`.
-- [x] Determine if `chromadb` truncates metadata values (Confirmed precision loss).
-
-### Completed
-- [x] Identified root cause: Floating point precision mismatch.
-
-## Fix
-### Tasks
-- [x] Implement a tolerance (epsilon) or rounding for `mtime` comparison.
-- [x] Update `IndexManager.update_index` to handle precision differences.
-
-### Completed
-- [x] Implemented tolerance check (0.001s).
-
-## Verify
-### Tasks
-- [x] Run the reproduction script again to confirm 0 files are re-indexed on subsequent runs.
-- [ ] Run existing tests to ensure no regressions.
-
-### Completed
-- [x] Verified manual run shows 0 files re-indexed.
+- [x] Add `DEFAULT_RESULTS = 10` to `settings.py`.
+- [x] Update `indexer.py` to use `DEFAULT_RESULTS` as default for `search()`.
+- [x] Update `zkss.py` to add `-n` / `--limit` argument to `argparse`.
+- [x] Pass the limit argument to `indexer.search()` calls in `zkss.py`.
+- [x] Verify functionality with manual test.
+- [x] Add tests for CLI argument parsing in `tests/test_zkss.py`.
 
 ## Finalize
-### Tasks
-- [x] Remove debug logging.
-- [x] Commit fix.
 
-### Completed
-- [x] Cleaned up code.
-- [x] Committed fix to master.
+### Phase Entrance Criteria:
+- [x] Implementation is complete and verified.
+- [x] No regressions in existing search behavior.
+
+### Tasks
+- [ ] Review code for cleanliness.
+- [ ] Commit changes.
 
 ## Key Decisions
-- **Tolerance**: Using 0.001s epsilon for mtime comparison.
+- Default limit set to 10 (industry standard).
+- CLI flag will be `-n` or `--limit`.
 
 ## Notes
-*Additional context and observations*
+- "More Like This" feature is next, but this minor change was requested first.
 
 ---
 *This plan is maintained by the LLM. Tool responses provide guidance on which section to focus on and what tasks to work on.*
