@@ -39,8 +39,11 @@ Make the number of search results configurable via a setting and a CLI argument,
 - [x] No regressions in existing search behavior.
 
 ### Tasks
-- [ ] Review code for cleanliness.
-- [ ] Commit changes.
+- [x] Review code for cleanliness.
+- [x] Commit changes.
+
+### Completed
+- [x] Code reviewed and committed.
 
 ## Key Decisions
 - Default limit set to 10 (industry standard).
