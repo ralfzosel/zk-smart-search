@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-01-01
+
 ### Added
 - Semantic Search using `sentence-transformers` and `chromadb`.
 - MCP Server integration (`mcp_server.py`) to expose search tools to AI assistants.
@@ -24,3 +26,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Redundant `ROADMAP.md` (consolidated into `development-plan.md`).
+
