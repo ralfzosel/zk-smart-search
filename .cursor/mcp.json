@@ -3,7 +3,7 @@
     "responsible-vibe-mcp": {
       "command": "npx",
       "args": [
-        "responsible-vibe-mcp"
+        "responsible-vibe-mcp@latest"
       ]
     }
   }

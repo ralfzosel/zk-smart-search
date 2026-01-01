@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated project description in `pyproject.toml`.
 - Comprehensive updates to `README.md` including setup instructions for Semantic Search and MCP.
+- Updated `.cursor/mcp.json` configuration.
 
 ### Removed
 - Redundant `ROADMAP.md` (consolidated into `development-plan.md`).
