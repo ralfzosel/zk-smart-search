@@ -1,0 +1,14 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zk-smart-search"
+version = "0.1.0"
+description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
