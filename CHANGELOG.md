@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Rich-to-Markdown conversion for MCP server output to improve AI assistant readability.
+- `zkss_markdown.py` helper utility to handle the conversion logic.
+- Comprehensive tests for MCP output formatting in `tests/test_mcp_output.py`.
+
+### Changed
+- MCP `search_notes` tool now bolds filenames and content locations while stripping color tags.
+- Updated `mcp_server.py` to use markdown conversion for both keyword and semantic search results.
+
 ## [0.1.0] - 2026-01-01
 
 ### Added

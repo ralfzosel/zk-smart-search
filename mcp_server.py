@@ -18,6 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from zkss import ZKSearcher
 from indexer import IndexManager
+from zkss_markdown import convert_rich_to_markdown
 
 # Initialize Server
 server = Server("zk-smart-search")
@@ -115,7 +116,7 @@ async def perform_semantic_search(query: str, limit: int) -> list[TextContent]:
         
         for fname in results:
             clean_name = searcher.strip_ending(fname)
-            formatted_results.append(f"- {clean_name} ({fname})")
+            formatted_results.append(f"- **{clean_name}** ({fname})")
             
         return [TextContent(
             type="text",
@@ -144,8 +145,9 @@ async def perform_keyword_search(query: str) -> list[TextContent]:
         
         # Process output
         # The output contains Rich markup like [yellow]...[/yellow]
-        # We'll just return it as text for now, the LLM can handle it
-        output_text = "\n".join(capture.output)
+        # Convert it to Markdown for better AI assistant readability
+        formatted_lines = [convert_rich_to_markdown(line) for line in capture.output]
+        output_text = "\n".join(formatted_lines)
         
         return [TextContent(
             type="text",
