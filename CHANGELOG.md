@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-01-02
+
 ### Added
 - Rich-to-Markdown conversion for MCP server output to improve AI assistant readability.
 - `zkss_markdown.py` helper utility to handle the conversion logic.
