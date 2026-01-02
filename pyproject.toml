@@ -11,4 +11,10 @@ version = "0.2.0"
 description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+    "rich",
+    "pytest",
+    "chromadb",
+    "sentence-transformers",
+    "mcp",
+]

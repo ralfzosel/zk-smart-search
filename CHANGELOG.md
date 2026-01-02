@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Migrated dependency management to `pyproject.toml` (PEP 621), removing the redundant `requirements.in`.
+- Updated workflow to generate `requirements.txt` directly from `pyproject.toml` using `pip-tools`.
+- Upgraded all dependencies to their latest versions during the migration.
 
 ## [0.2.0] - 2026-01-02
 
