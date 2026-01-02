@@ -2,6 +2,14 @@
 
 Tool that makes it easier to find "zettels" in large zettelkastens.
 
+## Security Note
+
+Gemini 3 says:
+
+"This package currently uses `urllib3==2.3.0`. While version `2.6.2` addresses security issues (GHSA-2xpw-w6gg-jr37, GHSA-gm62-xv2j-4w53), an upgrade is currently blocked by the upstream `kubernetes` python client (required by ChromaDB), which still pins `urllib3<2.4.0` in its latest stable release (v34.1.0).
+
+**Risk Assessment:** Since this is a local tool for searching your own notes, the risk is probably negligible. The vulnerabilities only affect connections to malicious remote servers, which is not a standard use case for this tool. We will upgrade as soon as the upstream dependency allows it."
+
 ## Usage (Example)
 
 ### Keyword Search (Standard)
