@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zk-smart-search"
-version = "0.3.0"
+version = "0.3.1"
 description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
 readme = "README.md"
 requires-python = ">=3.8"
