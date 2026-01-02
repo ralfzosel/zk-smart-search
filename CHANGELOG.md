@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Added explicit risk assessment to `README.md`.
+
+### Maintenance Notes
+- **Dependency Pin**: `urllib3` is pinned to `2.3.0` due to a version conflict in the `kubernetes` client (transitive dependency via `chromadb`).
+- **Security Assessment**: Evaluated `urllib3` [GHSA-2xpw-w6gg-jr37](https://github.com/urllib3/urllib3/security/advisories/GHSA-2xpw-w6gg-jr37) and [GHSA-gm62-xv2j-4w53](https://github.com/urllib3/urllib3/security/advisories/GHSA-gm62-xv2j-4w53). Risk is considered negligible for local Zettelkasten use. Upgrade will follow once upstream releases a fix.
+
 ## [0.3.0] - 2026-01-02
 
 ### Changed
