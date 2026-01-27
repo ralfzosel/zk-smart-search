@@ -238,7 +238,9 @@ class ZKSearcher:
                     f"- {message} in [yellow]content:",
                 )
 
-
-if __name__ == "__main__":
+def main():
     searcher = ZKSearcher()
     searcher.run()
+
+if __name__ == "__main__":
+    main()

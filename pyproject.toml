@@ -1,20 +1,27 @@
 [build-system]
-requires = [
-    "setuptools>=61.0",
-    "wheel",
-]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["zkss", "indexer", "settings", "mcp_server", "zkss_markdown", "rename_txt_to_md"]
 
 [project]
 name = "zk-smart-search"
 version = "0.3.1"
 description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.13,<3.14"
 dependencies = [
-    "rich",
-    "pytest",
-    "chromadb",
-    "sentence-transformers",
-    "mcp",
+    "rich>=13.0.0",
+    "chromadb>=0.4.0",
+    "sentence-transformers>=2.2.0",
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+zkss = "zkss:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
 ]
