@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-01-28
+
 ### Changed
 - Updated `README.md` security note to reference the current `protobuf` advisory and clarify local-use impact.
 - Refined installation guidance to mention `uv` and clarified virtual environment options.
