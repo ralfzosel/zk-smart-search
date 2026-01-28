@@ -1,13 +1,22 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = [
+    "setuptools>=61.0",
+]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ["zkss", "indexer", "settings", "mcp_server", "zkss_markdown", "rename_txt_to_md"]
+py-modules = [
+    "zkss",
+    "indexer",
+    "settings",
+    "mcp_server",
+    "zkss_markdown",
+    "rename_txt_to_md",
+]
 
 [project]
 name = "zk-smart-search"
-version = "0.3.1"
+version = "0.3.2"
 description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
