@@ -4,11 +4,7 @@ Tool that makes it easier to find "zettels" in large zettelkastens.
 
 ## Security Note
 
-Gemini 3 says:
-
-"This package currently uses `urllib3==2.3.0`. While version `2.6.2` addresses security issues (GHSA-2xpw-w6gg-jr37, GHSA-gm62-xv2j-4w53), an upgrade is currently blocked by the upstream `kubernetes` python client (required by ChromaDB), which still pins `urllib3<2.4.0` in its latest stable release (v34.1.0).
-
-**Risk Assessment:** Since this is a local tool for searching your own notes, the risk is probably negligible. The vulnerabilities only affect connections to malicious remote servers, which is not a standard use case for this tool. We will upgrade as soon as the upstream dependency allows it."
+`protobuf` has a reported DoS issue in `google.protobuf.json_format.ParseDict()` with deeply nested `Any` messages. This project does not parse protobuf JSON, so typical local usage is not affected. I will still upgrade once a fixed release is available. (via [Dependabot](https://github.com/dependabot) / Gemini 3)
 
 ## Usage (Example)
 
@@ -23,7 +19,7 @@ You can "pipe" the result to handle the output, e.g.
 
     $ zkss my zettelkasten | grep "search"
 
-### Semantic Search (New!)
+### Semantic Search
 You can now search for notes by **meaning** rather than exact keywords. This is useful when you remember the *concept* but not the exact words.
 
     $ zkss -s "personal knowledge management"
@@ -73,14 +69,14 @@ Software like [The Archive](https://zettelkasten.de/the-archive/) sort the searc
 By structuring the search results and showing the presumably most relevant first, you should be able to save time finding the desired zettels.
 
 ## Installation
-First, you need Python, of course. On a Mac, it [works best with Homebrew](https://docs.brew.sh/Homebrew-and-Python). I prefer [pyenv](https://realpython.com/intro-to-pyenv/) because it can handle different versions of Python on the same machine.
+First, you need Python, of course. On a Mac, it [works best with Homebrew](https://docs.brew.sh/Homebrew-and-Python). I prefer [uv](https://docs.astral.sh/uv/) because it can handle different versions of Python on the same machine in simple way.
 
 Download the files above from GitHub (or use `git clone https://github.com/ralfzosel/zk-smart-search.git`). I chose the directory `code` in my home-directory.
 
 ⚠️ If you choose another directory, you have to change the PATH variable in `.zshenv`, see below.
 
 ### Dependencies
-It is highly recommended to use a virtual environment:
+It is highly recommended to use a virtual environment - either with `uv` (I mentioned it above) or with `venv`:
 
 ```bash
 cd ~/code/zk-smart-search
@@ -120,4 +116,4 @@ I have only tested on macOS, so I have now idea if it works on Windows, too.
 
 When it comes to Python, I am just a hobbyist and this is my _first_ project I am publishing on GitHub. So it's very likely I made some mistakes. Please bear with me.
 
-*Update (Dec 2025): This project has been significantly refactored and enhanced with Semantic Search capabilities, built with the help of [Responsible Vibe MCP](https://github.com/mrsimpson/responsible-vibe-mcp) and Gemini 3 Pro.*
+*Update (Dec 2025): This project has been significantly refactored and enhanced with Semantic Search capabilities and MCP support, built with the help of [Responsible Vibe MCP](https://github.com/mrsimpson/responsible-vibe-mcp) and Gemini 3 Pro.*
