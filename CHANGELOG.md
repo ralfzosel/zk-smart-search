@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Refreshed `uv.lock` with dependency updates (including `huggingface-hub`, `orjson`, `protobuf`, `pyjwt`, and `tqdm`).
+
 ## [0.3.3] - 2026-01-28
 
 ### Changed
