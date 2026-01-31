@@ -2,10 +2,6 @@
 
 Tool that makes it easier to find "zettels" in large zettelkastens.
 
-## Security Note
-
-`protobuf` has a reported DoS issue in `google.protobuf.json_format.ParseDict()` with deeply nested `Any` messages. This project does not parse protobuf JSON, so typical local usage is not affected. I will still upgrade once a fixed release is available. (via [Dependabot](https://github.com/dependabot) / Gemini 3)
-
 ## Usage (Example)
 
 ### Keyword Search (Standard)

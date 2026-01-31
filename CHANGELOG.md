@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Removed the temporary security note from `README.md` as `protobuf` has been updated.
+
 ## [0.3.4] - 2026-01-31
 
 ### Changed
