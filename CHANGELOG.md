@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.3.6] - 2026-02-11
+
 ### Changed
 - Added `*.egg-info/` to `.gitignore` and removed the existing `zk_smart_search.egg-info/` directory from git tracking to prevent auto-generated build metadata from cluttering the repository.
 - Refreshed dependencies in `uv.lock` (including `chromadb`, `cryptography`, `grpcio`, `huggingface-hub`, `numpy`, `onnxruntime`, `orjson`, `pypika`, `rich`, `setuptools`, `tenacity`, `torch`, `tqdm`, `transformers`, and `typer`).
