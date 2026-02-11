@@ -1,6 +1,0 @@
-indexer
-mcp_server
-rename_txt_to_md
-settings
-zkss
-zkss_markdown
