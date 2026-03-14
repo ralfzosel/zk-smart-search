@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-03-14
+
 ### Changed
 - Refreshed dependency resolution in `uv.lock` and regenerated `requirements.txt` via `uv` to align pins across the project.
 - Updated multiple transitive packages during the refresh (including `chromadb`, `sentence-transformers`, `transformers`, `onnxruntime`, and telemetry-related packages).
