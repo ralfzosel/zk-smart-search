@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Refreshed dependency resolution in `uv.lock` and regenerated `requirements.txt` via `uv` to align pins across the project.
+- Updated multiple transitive packages during the refresh (including `chromadb`, `sentence-transformers`, `transformers`, `onnxruntime`, and telemetry-related packages).
+
+### Fixed
+- Upgraded `pyjwt` to `2.12.1` (from `2.11.0`) to address the GitHub security alert for CVE-2026-32597.
+
 ## [0.3.6] - 2026-02-11
 
 ### Changed
