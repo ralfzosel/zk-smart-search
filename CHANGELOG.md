@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-05-12
+
 ### Changed
 - Added `[tool.uv] constraint-dependencies` in `pyproject.toml` so resolution keeps minimum patched releases for `urllib3`, `python-multipart`, `cryptography`, and `requests`.
 - Raised the dev dependency pin for `pytest` to `>=9.0.3`.

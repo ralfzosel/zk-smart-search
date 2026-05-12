@@ -14,9 +14,17 @@ py-modules = [
     "rename_txt_to_md",
 ]
 
+[tool.uv]
+constraint-dependencies = [
+    "cryptography>=48.0.0",
+    "python-multipart>=0.0.28",
+    "requests>=2.34.0",
+    "urllib3>=2.7.0",
+]
+
 [project]
 name = "zk-smart-search"
-version = "0.3.7"
+version = "0.3.8"
 description = "A smart Zettelkasten search tool with semantic capabilities and MCP support."
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
@@ -33,12 +41,4 @@ zkss = "zkss:main"
 [dependency-groups]
 dev = [
     "pytest>=9.0.3",
-]
-
-[tool.uv]
-constraint-dependencies = [
-    "cryptography>=48.0.0",
-    "python-multipart>=0.0.28",
-    "requests>=2.34.0",
-    "urllib3>=2.7.0",
 ]
