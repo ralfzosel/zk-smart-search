@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Bumped resolved transitive versions in `uv.lock` and re-exported `requirements.txt` for the embedding and MCP stack (notably `torch`, `transformers`, `onnxruntime`, `sentence-transformers`, `chromadb`, `huggingface-hub`, `mcp`, `starlette`, `uvicorn`, OpenTelemetry, and `pydantic`-related packages).
+
 ## [0.3.8] - 2026-05-12
 
 ### Changed
