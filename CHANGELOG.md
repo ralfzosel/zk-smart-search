@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.10] - 2026-05-30
+
 ### Added
 - Added `SECURITY.md` documenting the impact assessment for CVE-2026-45829 (ChromaDB / ChromaToast): the project uses embedded `PersistentClient` only, so the vulnerable FastAPI server path is not exposed.
 
