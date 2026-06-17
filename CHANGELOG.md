@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Added `starlette>=1.0.1` to `[tool.uv] constraint-dependencies` and raised the `cryptography` floor to `>=48.0.1`.
+
+### Fixed
+- Refreshed `uv.lock` and re-exported `requirements.txt` to address Dependabot alerts for `starlette` (CVE-2026-48710) and `cryptography` 48.0.0.
+
 ## [0.3.10] - 2026-05-30
 
 ### Added
