@@ -178,8 +178,10 @@ pydantic-settings==2.14.1
     #   mcp
 pygments==2.20.0
     # via rich
-pyjwt==2.12.1
-    # via mcp
+pyjwt==2.13.0
+    # via
+    #   -c (workspace)
+    #   mcp
 pypika==0.51.1
     # via chromadb
 pyproject-hooks==1.2.0
@@ -190,7 +192,7 @@ python-dotenv==1.2.2
     # via
     #   pydantic-settings
     #   uvicorn
-python-multipart==0.0.28
+python-multipart==0.0.32
     # via
     #   -c (workspace)
     #   mcp
