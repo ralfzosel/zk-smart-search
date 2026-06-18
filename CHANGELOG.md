@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.12] - 2026-06-19
+
 ### Changed
 - Raised `[tool.uv] constraint-dependencies` floors for `python-multipart` (>=0.0.30) and `pyjwt` (>=2.13.0).
 
