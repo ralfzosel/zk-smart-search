@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised `[tool.uv] constraint-dependencies` floors for `python-multipart` (>=0.0.30) and `pyjwt` (>=2.13.0).
+
+### Fixed
+- Refreshed `uv.lock` and re-exported `requirements.txt` to address Dependabot alerts for `python-multipart` (CVE-2026-53539) and `pyjwt` (CVE-2026-48526).
+
 ## [0.3.11] - 2026-06-17
 
 ### Changed
