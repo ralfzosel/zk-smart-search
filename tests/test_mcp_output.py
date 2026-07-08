@@ -2,7 +2,7 @@ import pytest
 import asyncio
 from unittest.mock import patch, MagicMock
 from zkss_markdown import convert_rich_to_markdown
-from mcp_server import perform_keyword_search, perform_semantic_search
+from mcp_server import perform_keyword_search, perform_semantic_search, read_note_content, format_note_hit
 
 def test_convert_rich_to_markdown_basic():
     """Test basic green (stripped) and yellow (bold) tag conversion."""
@@ -59,10 +59,9 @@ def test_perform_keyword_search_markdown_formatting():
         assert "Found 1 relevant notes:" in output
         # [yellow] should be bold
         assert "- \"test\" in **filename:**" in output
-        assert "    20231027 Test Note" in output
+        assert "    - **20231027 Test Note** — `20231027 Test Note.md`" in output
         assert "[green]" not in output
         assert "[yellow]" not in output
-        assert "`" not in output # Verify no backticks for keywords
 
 def test_perform_semantic_search_markdown_formatting():
     """Verify that semantic search output uses bold for filenames."""
@@ -71,13 +70,24 @@ def test_perform_semantic_search_markdown_formatting():
         mock_index_class.return_value = mock_index
         mock_index.search.return_value = ["20231027 Test Note.md"]
         
-        with patch('mcp_server.ZKSearcher') as mock_searcher_class:
-            mock_searcher = MagicMock()
-            mock_searcher_class.return_value = mock_searcher
-            mock_searcher.strip_ending.return_value = "20231027 Test Note"
-            
-            results = asyncio.run(perform_semantic_search("test", 5))
-            output = results[0].text
-            
-            assert "**20231027 Test Note**" in output
-            assert "(20231027 Test Note.md)" in output
+        results = asyncio.run(perform_semantic_search("test", 5))
+        output = results[0].text
+        
+        assert "**20231027 Test Note** — `20231027 Test Note.md`" in output
+
+def test_format_note_hit():
+    assert format_note_hit("20231027 Test Note.md") == (
+        "- **20231027 Test Note** — `20231027 Test Note.md`"
+    )
+
+def test_read_note_appends_md_suffix():
+    with patch('mcp_server.ZKSearcher') as mock_searcher_class:
+        mock_searcher = MagicMock()
+        mock_searcher_class.return_value = mock_searcher
+        mock_searcher.get_file_content.side_effect = lambda name: "content" if name.endswith(".md") else ""
+
+        results = asyncio.run(read_note_content("20231027 Test Note"))
+        output = results[0].text
+
+        assert "Content of 20231027 Test Note.md:" in output
+        mock_searcher.get_file_content.assert_any_call("20231027 Test Note.md")

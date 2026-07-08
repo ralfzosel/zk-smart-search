@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- MCP search results now include copy-paste-ready note filenames with the `.md` suffix so agents can pass them directly to `read_note`.
+- `read_note` accepts filenames with or without the `.md` suffix.
+
 ## [0.3.14] - 2026-07-08
 
 ### Changed
