@@ -29,9 +29,33 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from zkss import ZKSearcher
 from indexer import IndexManager
 from zkss_markdown import convert_rich_to_markdown
+from settings import ENDING
 
 # Initialize Server
 server = Server("zk-smart-search")
+
+
+def format_note_hit(filename: str, title: str | None = None) -> str:
+    """Format a search hit with a copy-paste-ready filename for read_note."""
+    if title is None:
+        title = ZKSearcher().strip_ending(filename)
+    return f"- **{title}** — `{filename}`"
+
+
+def _append_filenames_to_keyword_results(text: str) -> str:
+    """Turn bare note titles into read_note-ready filenames in keyword output."""
+    lines = []
+    for line in text.splitlines():
+        if line.startswith("    ") and line.strip():
+            title = line.strip()
+            if title.endswith(ENDING):
+                filename = title
+            else:
+                filename = f"{title}{ENDING}"
+            lines.append(f"    {format_note_hit(filename, title)}")
+        else:
+            lines.append(line)
+    return "\n".join(lines)
 
 class CapturingConsole:
     """Mock console to capture output from ZKSearcher."""
@@ -52,7 +76,7 @@ async def list_tools() -> list[Tool]:
     return [
         Tool(
             name="search_notes",
-            description="Search for notes in the Zettelkasten. Supports both exact keyword matching (default) and semantic/meaning-based search.",
+            description="Search for notes in the Zettelkasten. Supports both exact keyword matching (default) and semantic/meaning-based search. Results include the note filename (with .md suffix) for use with read_note.",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -76,13 +100,13 @@ async def list_tools() -> list[Tool]:
         ),
         Tool(
             name="read_note",
-            description="Read the full content of a note.",
+            description="Read the full content of a note. Use the filename from search_notes results (including the .md suffix).",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "filename": {
                         "type": "string",
-                        "description": "The exact filename of the note to read"
+                        "description": "Note filename, e.g. '202203291059 my django_project.md'. The .md suffix may be omitted."
                     }
                 },
                 "required": ["filename"]
@@ -121,12 +145,7 @@ async def perform_semantic_search(query: str, limit: int) -> list[TextContent]:
         
         results = indexer.search(query, n_results=limit)
         
-        formatted_results = []
-        searcher = ZKSearcher() # Helper for strip_ending
-        
-        for fname in results:
-            clean_name = searcher.strip_ending(fname)
-            formatted_results.append(f"- **{clean_name}** ({fname})")
+        formatted_results = [format_note_hit(fname) for fname in results]
             
         return [TextContent(
             type="text",
@@ -157,7 +176,7 @@ async def perform_keyword_search(query: str) -> list[TextContent]:
         # The output contains Rich markup like [yellow]...[/yellow]
         # Convert it to Markdown for better AI assistant readability
         formatted_lines = [convert_rich_to_markdown(line) for line in capture.output]
-        output_text = "\n".join(formatted_lines)
+        output_text = _append_filenames_to_keyword_results("\n".join(formatted_lines))
         
         return [TextContent(
             type="text",
@@ -171,6 +190,9 @@ async def read_note_content(filename: str) -> list[TextContent]:
     try:
         searcher = ZKSearcher()
         content = searcher.get_file_content(filename)
+        if not content and filename and not filename.endswith(ENDING):
+            filename = f"{filename}{ENDING}"
+            content = searcher.get_file_content(filename)
         if not content:
              return [TextContent(type="text", text=f"Note '{filename}' not found or empty.")]
         
