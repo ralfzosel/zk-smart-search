@@ -20,6 +20,24 @@ The MCP server uses stdio transport and is unrelated to ChromaDB's network API.
 - Do not expose ChromaDB's FastAPI server if deploying ChromaDB separately in the future; prefer the Rust-based `chroma run` frontend.
 - Upgrade `chromadb` as soon as a fixed version is published.
 
+## CVE-2025-3000 (PyTorch / `torch.jit.script`)
+
+**Advisory:** [GHSA-rrmf-rvhw-rf47](https://github.com/advisories/GHSA-rrmf-rvhw-rf47)  
+**Severity:** Low (GitHub-reviewed)  
+**Affected package:** `torch` through 2.12.0
+
+### Impact on zk-smart-search
+
+`torch` is a **transitive dependency** of `sentence-transformers`, used only for local embedding inference. This project does **not** call `torch.jit.script` or otherwise use TorchScript.
+
+**Practical risk for this deployment: low.**
+
+### Mitigation
+
+- No patched `torch` release is available yet (Dependabot lists no fixed version).
+- Upgrade `torch` as soon as a fixed release is published and re-validate the Dependabot alert.
+- Re-check by 2026-12-08 whether a patched `torch` release has landed.
+
 ### Reporting vulnerabilities in zk-smart-search
 
 Open an issue or contact the repository owner directly.
