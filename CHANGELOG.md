@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fixed MCP stdio transport corruption when semantic indexing printed progress output to stdout, which broke JSON-RPC with `Unexpected token 'E', "Embedding."... is not valid JSON`.
+- Routed indexer status and embedding progress to stderr, and added an MCP stdout guard so library output cannot pollute the JSON-RPC channel.
+
 ## [0.3.12] - 2026-06-19
 
 ### Changed

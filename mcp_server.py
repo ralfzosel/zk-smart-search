@@ -9,6 +9,15 @@ import os
 from unittest.mock import MagicMock, patch
 from typing import Any, List, Dict
 
+# Quiet noisy ML/HF tooling before those libraries are imported. This only
+# reduces log noise; the stdout guard below is what actually protects the
+# JSON-RPC protocol.
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
+os.environ.setdefault("TRANSFORMERS_NO_ADVISORY_WARNINGS", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
+import anyio
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
@@ -171,8 +180,27 @@ async def read_note_content(filename: str) -> list[TextContent]:
     except Exception as e:
         return [TextContent(type="text", text=f"Error reading note: {str(e)}")]
 
+def _install_stdout_guard():
+    """
+    stdio MCP uses stdout exclusively for JSON-RPC. Any stray text written to
+    stdout by our dependencies (rich/tqdm progress bars, sentence-transformers,
+    chromadb, huggingface_hub) corrupts the message stream and drops the
+    connection with errors like `Unexpected token ... is not valid JSON`.
+
+    We keep a private copy of the real stdout for the transport, then point the
+    process's stdout at stderr so nothing else can pollute the protocol.
+    """
+    sys.stdout.flush()
+    saved_stdout_fd = os.dup(1)          # private JSON-RPC channel
+    os.dup2(2, 1)                        # fd 1 now writes to stderr
+    private_stdout = os.fdopen(saved_stdout_fd, "w", encoding="utf-8", buffering=1)
+    sys.stdout = sys.stderr              # Python-level prints go to stderr too
+    return private_stdout
+
+
 async def main():
-    async with stdio_server() as (read_stream, write_stream):
+    private_stdout = _install_stdout_guard()
+    async with stdio_server(stdout=anyio.wrap_file(private_stdout)) as (read_stream, write_stream):
         await server.run(
             read_stream,
             write_stream,

@@ -16,7 +16,9 @@ class IndexManager:
     def __init__(self, base_dir: str = ZK_BASE_DIR):
         self.base_dir = base_dir
         self.db_path = os.path.join(os.path.expanduser("~"), self.DB_DIR_NAME)
-        self.console = Console()
+        # Status/progress output must never land on stdout: it is either
+        # informational (CLI) or would corrupt the JSON-RPC stream (MCP).
+        self.console = Console(stderr=True)
         
         # Initialize ChromaDB
         self.client = chromadb.PersistentClient(path=self.db_path)
@@ -97,7 +99,7 @@ class IndexManager:
             documents = []
             metadatas = []
 
-            for filename in track(files_to_process, description="Embedding..."):
+            for filename in track(files_to_process, description="Embedding...", console=self.console):
                 try:
                     with open(os.path.join(self.base_dir, filename), "r", errors="ignore") as f:
                         content = f.read()
