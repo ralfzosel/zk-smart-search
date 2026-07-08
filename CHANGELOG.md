@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised `[tool.uv] constraint-dependencies` floor for `pydantic-settings` (>=2.14.2).
+
+### Fixed
+- Refreshed `uv.lock` and re-exported `requirements.txt` to address Dependabot alerts for `pydantic-settings` symlink traversal in `NestedSecretsSettingsSource`.
+
 ## [0.3.15] - 2026-07-08
 
 ### Fixed

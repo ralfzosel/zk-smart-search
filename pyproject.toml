@@ -17,6 +17,7 @@ py-modules = [
 [tool.uv]
 constraint-dependencies = [
     "cryptography>=48.0.1",
+    "pydantic-settings>=2.14.2",
     "pyjwt>=2.13.0",
     "python-multipart>=0.0.30",
     "requests>=2.34.0",
