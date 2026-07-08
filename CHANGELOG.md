@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.14] - 2026-07-08
+
 ### Changed
 - Default semantic search to Hugging Face Hub offline mode so the cached embedding model loads without unauthenticated Hub checks or warnings on every run.
 
