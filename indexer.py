@@ -1,6 +1,11 @@
 import os
 import time
 from typing import List, Dict, Optional
+
+# Use the locally cached embedding model; skip Hugging Face Hub checks on every run.
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+
 import chromadb
 from chromadb.utils import embedding_functions
 from rich.console import Console
