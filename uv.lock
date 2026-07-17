@@ -1893,7 +1893,7 @@ wheels = [
 
 [[package]]
 name = "zk-smart-search"
-version = "0.3.16"
+version = "0.3.17"
 source = { editable = "." }
 dependencies = [
     { name = "chromadb" },

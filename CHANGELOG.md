@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.17] - 2026-07-17
+
 ### Changed
 - Raised the `mcp` dependency floor to `>=1.27.2` and added it to `[tool.uv] constraint-dependencies`.
 
