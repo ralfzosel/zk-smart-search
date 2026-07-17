@@ -1,5 +1,21 @@
 # Security
 
+## CVE-2026-52870 (MCP Python SDK / experimental tasks)
+
+**Advisory:** [GHSA-hvrp-rf83-w775](https://github.com/advisories/GHSA-hvrp-rf83-w775)  
+**Severity:** High  
+**Affected package:** `mcp` 1.23.0–1.27.1
+
+### Impact on zk-smart-search
+
+This project runs the MCP server over **stdio** and does **not** enable the experimental tasks feature. The advisory concerns cross-client access to task handlers on multi-session servers.
+
+**Practical risk for this deployment: low.**
+
+### Mitigation
+
+- Upgraded to `mcp>=1.27.2` (resolved to 1.28.1).
+
 ## CVE-2026-45829 (ChromaDB / ChromaToast)
 
 **Advisory:** [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c)  
