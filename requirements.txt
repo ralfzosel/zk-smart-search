@@ -104,8 +104,10 @@ markdown-it-py==4.2.0
     # via rich
 markupsafe==3.0.3
     # via jinja2
-mcp==1.27.1
-    # via zk-smart-search (pyproject.toml)
+mcp==1.28.1
+    # via
+    #   -c (workspace)
+    #   zk-smart-search (pyproject.toml)
 mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.2.1

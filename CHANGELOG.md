@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised the `mcp` dependency floor to `>=1.27.2` and added it to `[tool.uv] constraint-dependencies`.
+
+### Fixed
+- Refreshed `uv.lock` and re-exported `requirements.txt` to address Dependabot alerts for `mcp` (CVE-2026-52870 / GHSA-hvrp-rf83-w775).
+
 ## [0.3.16] - 2026-07-08
 
 ### Changed
