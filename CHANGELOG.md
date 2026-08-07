@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.18] - 2026-08-07
+
 ### Changed
 - Raised the `cryptography` constraint floor to `>=50.0.0`.
 
