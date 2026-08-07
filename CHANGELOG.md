@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised the `cryptography` constraint floor to `>=50.0.0`.
+
+### Fixed
+- Refreshed `uv.lock` and `requirements.txt` to address Dependabot alerts for `cryptography` PKCS#7 EnvelopedData Bleichenbacher oracle (CVE-2026-69247 / GHSA-g6cj-pr64-35w5).
+
 ## [0.3.17] - 2026-07-17
 
 ### Changed
