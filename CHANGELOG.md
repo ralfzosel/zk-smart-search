@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Documented Dependabot alerts for ChromaDB CVE-2026-45830, CVE-2026-45831, and CVE-2026-45833 in `SECURITY.md` (same embedded-`PersistentClient` impact as CVE-2026-45829; no patched `chromadb` release yet).
+
 ## [0.3.18] - 2026-08-07
 
 ### Changed
