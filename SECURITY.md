@@ -16,15 +16,22 @@ This project runs the MCP server over **stdio** and does **not** enable the expe
 
 - Upgraded to `mcp>=1.27.2` (resolved to 1.28.1).
 
-## CVE-2026-45829 (ChromaDB / ChromaToast)
+## ChromaDB Python FastAPI server (CVE-2026-45829, CVE-2026-45830, CVE-2026-45831, CVE-2026-45833)
 
-**Advisory:** [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c)  
-**Severity:** Critical (CVSS 10.0)  
-**Affected package:** `chromadb` 1.0.0–1.5.9 (Python FastAPI server)
+These advisories all apply to ChromaDB's **networked Python FastAPI server** (auth, multi-tenant RBAC, and HTTP collection-update APIs). There is still **no patched `chromadb` release** (latest: 1.5.9).
+
+| CVE | Advisory | Severity | Issue |
+|---|---|---|---|
+| CVE-2026-45829 | [GHSA-f4j7-r4q5-qw2c](https://github.com/advisories/GHSA-f4j7-r4q5-qw2c) | Critical | ChromaToast on the FastAPI server |
+| CVE-2026-45830 | [GHSA-2wm9-hf6c-p5cr](https://github.com/advisories/GHSA-2wm9-hf6c-p5cr) | High | Authenticated users can read/write any tenant's collection |
+| CVE-2026-45831 | [GHSA-xph7-9rjv-w5fr](https://github.com/advisories/GHSA-xph7-9rjv-w5fr) | High | `SimpleRBACAuthorizationProvider` ignores tenant/database/collection scope |
+| CVE-2026-45833 | [GHSA-36p7-vc44-83pf](https://github.com/advisories/GHSA-36p7-vc44-83pf) | Critical | Code injection via collection update + `trust_remote_code` on `/api/v2/.../collections/{id}` |
+
+**Affected package:** `chromadb` 0.4.17–1.5.9 (RBAC issue from 0.5.0)
 
 ### Impact on zk-smart-search
 
-This project uses ChromaDB only as an **embedded local store** via `PersistentClient` (index at `~/.zkss_index`). It does **not** start or expose ChromaDB's HTTP API server, which is the affected component.
+This project uses ChromaDB only as an **embedded local store** via `PersistentClient` (index at `~/.zkss_index`). It does **not** start or expose ChromaDB's HTTP API, enable SimpleRBAC, or accept remote collection-update payloads.
 
 The MCP server uses stdio transport and is unrelated to ChromaDB's network API.
 
