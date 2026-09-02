@@ -228,7 +228,7 @@ rpds-py==0.30.0
     # via
     #   jsonschema
     #   referencing
-safetensors==0.7.0
+safetensors==0.8.0
     # via transformers
 scikit-learn==1.8.0
     # via sentence-transformers
@@ -271,8 +271,10 @@ tqdm==4.67.3
     #   huggingface-hub
     #   sentence-transformers
     #   transformers
-transformers==5.8.1
-    # via sentence-transformers
+transformers==5.15.1
+    # via
+    #   -c (workspace)
+    #   sentence-transformers
 typer==0.25.1
     # via
     #   chromadb

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised the `[tool.uv] constraint-dependencies` floor for `transformers` (`>=5.10.0`).
+
+### Fixed
+- Refreshed `uv.lock` and re-exported `requirements.txt` to address Dependabot alerts for `transformers` `save_pretrained` path traversal via chat template names (CVE-2026-9856 / GHSA-xrqw-3rrv-vx5w).
+
 ## [0.3.19] - 2026-08-25
 
 ### Added
