@@ -1,5 +1,23 @@
 # Security
 
+## CVE-2026-9856 (Transformers `save_pretrained` path traversal)
+
+**Advisory:** [GHSA-xrqw-3rrv-vx5w](https://github.com/advisories/GHSA-xrqw-3rrv-vx5w)  
+**Severity:** High  
+**Affected package:** `transformers` through 5.8.x (fixed in 5.10.0; that release was yanked, later 5.x builds include the fix)
+
+### Impact on zk-smart-search
+
+`transformers` is a **transitive dependency** of `sentence-transformers`, used only to load the local `all-MiniLM-L6-v2` embedding model. This project does **not** call `save_pretrained()`, and indexer startup sets `HF_HUB_OFFLINE=1` so Hub downloads are not re-checked on every run.
+
+The advisory requires loading a tokenizer or processor from an untrusted Hub repository and then saving it. That path is not used here.
+
+**Practical risk for this deployment: low.**
+
+### Mitigation
+
+- Raised the `transformers` constraint floor to `>=5.10.0` (resolved to 5.15.1).
+
 ## CVE-2026-52870 (MCP Python SDK / experimental tasks)
 
 **Advisory:** [GHSA-hvrp-rf83-w775](https://github.com/advisories/GHSA-hvrp-rf83-w775)  

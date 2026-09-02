@@ -23,6 +23,7 @@ constraint-dependencies = [
     "python-multipart>=0.0.30",
     "requests>=2.34.0",
     "starlette>=1.0.1",
+    "transformers>=5.10.0",
     "urllib3>=2.7.0",
 ]
 
