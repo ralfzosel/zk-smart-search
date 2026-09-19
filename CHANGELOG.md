@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Added patched minimum dependency constraints for `anyio` (`>=4.14.2`), `setuptools` (`>=83.0.0,<84`), and `torch` (`>=2.13.0,<2.14`).
+
+### Fixed
+- Refreshed `uv.lock` and `requirements.txt` to resolve Dependabot alerts affecting AnyIO TLS validation and process pools, setuptools source distributions, and `torch.jit.script`.
+
 ## [0.3.20] - 2026-09-02
 
 ### Changed
@@ -183,4 +189,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Redundant `ROADMAP.md` (consolidated into `development-plan.md`).
-

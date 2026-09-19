@@ -16,13 +16,16 @@ py-modules = [
 
 [tool.uv]
 constraint-dependencies = [
+    "anyio>=4.14.2",
     "cryptography>=50.0.0",
     "mcp>=1.27.2",
     "pydantic-settings>=2.14.2",
     "pyjwt>=2.13.0",
     "python-multipart>=0.0.30",
     "requests>=2.34.0",
+    "setuptools>=83.0.0,<84",
     "starlette>=1.0.1",
+    "torch>=2.13.0,<2.14",
     "transformers>=5.10.0",
     "urllib3>=2.7.0",
 ]
