@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.21] - 2026-09-19
+
 ### Changed
 - Added patched minimum dependency constraints for `anyio` (`>=4.14.2`), `setuptools` (`>=83.0.0,<84`), and `torch` (`>=2.13.0,<2.14`).
 
