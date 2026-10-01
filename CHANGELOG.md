@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.22] - 2026-10-01
+
 ### Changed
 - Raised dependency constraints: `oauthlib>=4.0.0`, `pyjwt>=2.15.0`, `sentence-transformers>=5.6.0`, and `urllib3>=2.8.0`.
 
