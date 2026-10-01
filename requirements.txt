@@ -125,8 +125,10 @@ numpy==2.4.4
     #   scipy
     #   sentence-transformers
     #   transformers
-oauthlib==3.3.1
-    # via requests-oauthlib
+oauthlib==4.0.0
+    # via
+    #   -c (workspace)
+    #   requests-oauthlib
 onnxruntime==1.26.0
     # via chromadb
 opentelemetry-api==1.41.1
@@ -182,7 +184,7 @@ pydantic-settings==2.14.2
     #   mcp
 pygments==2.20.0
     # via rich
-pyjwt==2.13.0
+pyjwt==2.15.1
     # via
     #   -c (workspace)
     #   mcp
@@ -237,8 +239,10 @@ scipy==1.17.1
     # via
     #   scikit-learn
     #   sentence-transformers
-sentence-transformers==5.5.0
-    # via zk-smart-search (pyproject.toml)
+sentence-transformers==6.1.0
+    # via
+    #   -c (workspace)
+    #   zk-smart-search (pyproject.toml)
 setuptools==83.0.0
     # via
     #   -c (workspace)
@@ -265,6 +269,7 @@ threadpoolctl==3.6.0
 tokenizers==0.22.2
     # via
     #   chromadb
+    #   sentence-transformers
     #   transformers
 torch==2.13.0
     # via
@@ -305,7 +310,7 @@ typing-inspection==0.4.2
     #   mcp
     #   pydantic
     #   pydantic-settings
-urllib3==2.7.0
+urllib3==2.8.0
     # via
     #   -c (workspace)
     #   kubernetes
