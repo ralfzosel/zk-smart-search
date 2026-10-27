@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.23] - 2026-10-27
+
 ### Changed
 - Raised dependency constraints: `filelock>=4.2.1`, `fsspec>=2026.6.0`, `mcp>=1.30.0,<2`, `opentelemetry-api>=1.45.1`, and `setuptools>=84.1.0,<85`.
 
