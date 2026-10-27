@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Raised dependency constraints: `filelock>=4.2.1`, `fsspec>=2026.6.0`, `mcp>=1.30.0,<2`, `opentelemetry-api>=1.45.1`, and `setuptools>=84.1.0,<85`.
+
+### Fixed
+- Refreshed `uv.lock` and `requirements.txt` (filelock 4.2.4, fsspec 2026.9.0, mcp 1.30.0, OpenTelemetry 1.45.1, setuptools 84.2.1) to resolve Dependabot alerts.
+
 ## [0.3.22] - 2026-10-01
 
 ### Changed
